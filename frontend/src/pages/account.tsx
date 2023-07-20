@@ -4,14 +4,14 @@ import client from '@/common/fetch/apollo-client';
 import { GetCategoriesDocument } from '@/generated/graphql';
 import { CategoryCard } from '@/components/CategoryCard';
 import RegisterForm from '@/components/RegisterForm';
-import { Role, UserContext } from '@/common/UserContext';
+import useUser, { Role } from '@/common/UserContext';
 import Link from 'next/link';
 import DeleteSelfPopout from '@/components/DeleteSelfPopout';
 import Modal from '@/components/Modal';
 
 export default function AccountPage() {
 
-  const [userContext, { }] = useContext(UserContext);
+  const [userContext, { }] = useUser();
   const [showModal, setShowModal] = useState(false);
 
   const isCustomer = userContext.role == Role.Customer;

@@ -1,11 +1,11 @@
 import GetRoleFromToken from "@/common/RoleGetter";
-import { UserContext } from "@/common/UserContext";
+import useUser from "@/common/UserContext";
 import { useGetMyInfoQuery } from "@/generated/graphql";
 import { useContext } from "react";
 
 export const RoleChecker = () => {
 
-    const [userDetails, { refetchUserInfo, loginUser }] = useContext(UserContext);
+    const [userDetails, { refetchUserInfo, loginUser }] = useUser();
 
     let role = GetRoleFromToken();
 

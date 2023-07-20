@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext } from "react";
 import { Button, TextField } from "@mui/material";
 import { useRouter } from "next/router";
-import { UserContext } from "@/common/UserContext";
+import useUser from "@/common/UserContext";
 import InputField from "./InputField";
 
 const debug = true;
@@ -25,7 +25,7 @@ type LoginInputSchema = TypeOf<typeof loginSchema>;
 export default function LoginForm() {
     const router = useRouter();
 
-    const [userDetails, { loginUser }] = useContext(UserContext);
+    const [userDetails, { loginUser }] = useUser();
 
     const { register, formState: { errors }, getValues, setValue, handleSubmit } = useForm<LoginInputSchema>({
         resolver: zodResolver(loginSchema),

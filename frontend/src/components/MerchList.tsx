@@ -1,4 +1,4 @@
-import { UserContext } from "@/common/UserContext";
+import useUser from "@/common/UserContext";
 import { merchNameToPath } from "@/common/Utilities";
 import { useContext, useState } from "react";
 import DeleteSelfPopout from "./DeleteSelfPopout";
@@ -6,7 +6,7 @@ import Modal from "./Modal";
 import EditStockPopup from "./EditStockPopup";
 
 export const MerchList = ({ merchInfo }: any) => {
-    const [userContext, { refetchUserInfo }] = useContext(UserContext);
+    const [userContext, { refetchUserInfo }] = useUser();
     const merchUrl = merchNameToPath(merchInfo.name, merchInfo.id);
     const [showModal, setShowModal] = useState(false);
 

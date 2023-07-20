@@ -1,20 +1,17 @@
 import Head from 'next/head'
-import { gql } from "@apollo/client";
 import client from "@/common/fetch/apollo-client";
-import ClientOnly from '@/common/fetch/ClientOnly';
-import RegisterForm from '@/components/RegisterForm';
 import PersonalInfoForm from '@/components/PersonalInfoForm';
 import CreditCardForm from '@/components/CreditCardForm';
 import { TypeOf, object, string } from 'zod';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
-import { UserContext } from '@/common/UserContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UpdateCustomerDocument, UpdateCustomerInput } from '@/generated/graphql';
 import { userInfoDiff } from '@/common/Utilities';
 import { Button, TextField } from '@mui/material';
 import InputField from '@/components/InputField';
+import useUser from '@/common/UserContext';
 
 const updateInfoSchema = object({
     firstName: string()
@@ -39,7 +36,7 @@ type UpdateInputSchema = TypeOf<typeof updateInfoSchema>;
 export default function Personalinfo() {
     const router = useRouter();
 
-    const [userDetails, { }] = useContext(UserContext);
+    const [userDetails, { }] = useUser();
 
     const myId = userDetails.accountInfo?.id;
 

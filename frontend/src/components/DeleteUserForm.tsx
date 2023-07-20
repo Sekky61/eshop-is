@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useEffect } from "react";
 import { Button, TextField } from "@mui/material";
 import { useRouter } from "next/router";
-import { UserContext } from "@/common/UserContext";
+import useUser from "@/common/UserContext";
 
 const deleteUser = object({
     email: string()
@@ -18,7 +18,7 @@ type DeleteUserSchema = TypeOf<typeof deleteUser>;
 export default function DeleteUserForm() {
     const router = useRouter();
 
-    const userContext = useContext(UserContext);
+    const userContext = useUser();
 
     const { register, formState: { errors }, getValues } = useForm<DeleteUserSchema>({
         resolver: zodResolver(deleteUser),

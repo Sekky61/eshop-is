@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ApolloClient } from "@apollo/client";
 import { GetMyInfoDocument, GetMyInfoQuery, LoginDocument, MutationLoginArgs, RegisterCustomerDocument, RegisterCustomerInput } from "@/generated/graphql";
 import SessionChange from "./fetch/SessionChange";
@@ -200,4 +200,11 @@ export const UserContextProvider = ({ children, apolloClient }: any) => {
         </UserContext.Provider>
     );
 };
+
+const useUser = (): UserContextType => {
+    const x = useContext(UserContext);
+    return x
+}
+
+export default useUser;
 

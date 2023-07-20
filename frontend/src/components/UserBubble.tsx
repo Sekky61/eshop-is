@@ -1,4 +1,4 @@
-import { Role, UserContext } from "@/common/UserContext";
+import useUser, { Role, UserContext } from "@/common/UserContext";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
@@ -16,6 +16,7 @@ function roleToPath(role: Role): string {
     }
 }
 
+// Shopping cart icon. Shows the number of items in the cart.
 const ShoppingCart = ({ numberOfItems }: any) => {
     return (
         <Link href="/cart">
@@ -36,7 +37,7 @@ const UserBubble = () => {
     const router = useRouter();
 
     // UserContext
-    const [userDetails, { logoutUser }] = useContext(UserContext);
+    const [userDetails, { logoutUser }] = useUser();
 
     const showCart = userDetails.role === Role.Customer || userDetails.role === Role.AnonymousCustomer;
     const nOfItems = userDetails.basketInfo?.basketItemCount || 0;

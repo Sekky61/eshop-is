@@ -1,20 +1,16 @@
 import Head from 'next/head';
-import { useContext, useState } from 'react';
-import RegisterForm from '@/components/RegisterForm';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import DeleteUserForm from '@/components/DeleteUserForm';
-import LoginForm from '@/components/LoginForm';
-import { UserContext } from '@/common/UserContext';
 import PersonalInfoForm from '@/components/PersonalInfoForm';
 import { TypeOf, literal, object, string } from 'zod';
 import CreditCardForm from '@/components/CreditCardForm';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import ClientOnly from '@/common/fetch/ClientOnly';
 import Link from 'next/link';
 import { merchNameToPath } from '@/common/Utilities';
 import client from '@/common/fetch/apollo-client';
 import { OrderDocument } from '@/generated/graphql';
+import useUser from '@/common/UserContext';
 
 const orderSchema = object({
     phoneNumber: string().nonempty('Phone number is required'),
@@ -37,7 +33,7 @@ export default function CheckoutPage() {
 
     const router = useRouter();
 
-    const [userContext, { refetchUserInfo }] = useContext(UserContext);
+    const [userContext, { refetchUserInfo }] = useUser();
     console.log(userContext)
     const hasNameAndAddress = userContext?.customerInfo != null;
     const hasPayment = userContext?.customerInfo?.paymentInformation != null;
@@ -161,7 +157,7 @@ export default function CheckoutPage() {
 
 
 const Summary = () => {
-    const [userContext, { refetchUserInfo }] = useContext(UserContext);
+    const [userContext, { refetchUserInfo }] = useUser();
 
     const basket = userContext?.basketInfo;
 

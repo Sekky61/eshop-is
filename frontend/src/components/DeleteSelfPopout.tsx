@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { useRouter } from "next/router";
-import { UserContext } from "@/common/UserContext";
+import useUser from "@/common/UserContext";
 import client from "@/common/fetch/apollo-client";
 import { DeleteSelfDocument } from "@/generated/graphql";
 
 const DeleteSelfPopout = () => {
     const router = useRouter();
-    const [userDetails, { logoutUser }] = useContext(UserContext);
+    const [userDetails, { logoutUser }] = useUser();
 
     const handleDelete = async () => {
         try {

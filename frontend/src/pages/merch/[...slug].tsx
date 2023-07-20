@@ -3,13 +3,12 @@ import { GetMerchDocument, MerchandiseInfo } from '@/generated/graphql';
 import Head from 'next/head';
 import { merchNameToPath } from "@/common/Utilities";
 import { SetCartItemDocument } from "@/generated/graphql";
-import { useContext } from "react";
-import { Role, UserContext } from "@/common/UserContext";
+import useUser, { Role } from "@/common/UserContext";
 import { MerchCard } from '@/components/MerchCard';
 import Link from 'next/link';
 
 export default function ProductPage({ merchInfo, merch }: { merchInfo: MerchandiseInfo, merch: MerchandiseInfo[] }) {
-    const [userContext, { refetchUserInfo }] = useContext(UserContext);
+    const [userContext, { refetchUserInfo }] = useUser();
     const merchUrl = merchNameToPath(merchInfo.name, merchInfo.id);
     const isInStock = merchInfo.stock > 0;
 

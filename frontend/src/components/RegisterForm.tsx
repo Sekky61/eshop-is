@@ -6,7 +6,7 @@ import { useContext, useEffect } from "react";
 import { Button, Checkbox, FormControlLabel, FormGroup, FormHelperText, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import SessionChange from "@/common/fetch/SessionChange";
-import { UserContext } from "@/common/UserContext";
+import useUser from "@/common/UserContext";
 import PersonalInfoForm from "./PersonalInfoForm";
 import InputField from "./InputField";
 
@@ -41,7 +41,7 @@ type RegisterInputSchema = TypeOf<typeof registerSchema>;
 export default function RegisterForm() {
     const router = useRouter();
 
-    const [userDetails, { registerUser }] = useContext(UserContext);
+    const [userDetails, { registerUser }] = useUser();
 
     const {
         register,

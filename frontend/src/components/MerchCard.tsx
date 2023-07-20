@@ -1,5 +1,5 @@
 import { Role } from "@/common/UserContext";
-import { UserContext } from "@/common/UserContext";
+import useUser from "@/common/UserContext";
 import { merchNameToPath } from "@/common/Utilities";
 import client from "@/common/fetch/apollo-client";
 import { SetCartItemDocument } from "@/generated/graphql";
@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useContext } from "react";
 
 export const MerchCard = ({ merchInfo }: any) => {
-  const [userContext, { refetchUserInfo }] = useContext(UserContext);
+  const [userContext, { refetchUserInfo }] = useUser();
   const merchUrl = merchNameToPath(merchInfo.name, merchInfo.id);
 
   const isCustomer = userContext.role == Role.Customer || userContext.role == Role.AnonymousCustomer;

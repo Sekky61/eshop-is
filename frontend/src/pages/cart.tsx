@@ -1,4 +1,4 @@
-import { UserContext } from "@/common/UserContext";
+import useUser from "@/common/UserContext";
 import { merchNameToPath } from "@/common/Utilities";
 import ClientOnly from "@/common/fetch/ClientOnly";
 import client from "@/common/fetch/apollo-client";
@@ -62,7 +62,7 @@ const BasketItem = ({ basketItem, onQuantityChange, onRemoveClick }: any) => {
 };
 
 const CartPageContent = () => {
-    const [userContext, { refetchUserInfo }] = useContext(UserContext);
+    const [userContext, { refetchUserInfo }] = useUser();
 
     const basket = userContext?.basketInfo;
 
