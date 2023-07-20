@@ -1,0 +1,19 @@
+schema:
+  - "http://localhost:5024/graphql?sdl" 
+documents:
+  - "./graphql/**/*.graphql"
+generates:
+  ./src/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      pureMagicComment: true
+      exposeQueryKeys: true
+      fetcher:
+        endpoint: 'http://localhost:5024/graphql'
+        fetchParams:
+          headers:
+            Content-Type: application/json
+      exposeFetcher: true

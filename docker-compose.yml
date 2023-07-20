@@ -1,0 +1,58 @@
+
+
+version: '3.4'
+
+
+
+
+services:
+  #DataBase Service
+    adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8080:8080
+      links:
+        - mysql_db:DB
+
+    # 1. Container for DB
+    # Default port 3306
+    mysql_db:
+      image: mysql:8
+      cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+      volumes:
+      #  - "./db_init/01_create_scheme.sql:/docker-entrypoint-initdb.d/1.sql"
+        - "mysql:/var/lib/mysql"
+      command: --default-authentication-plugin=mysql_native_password
+      environment:
+        - DB_USER=root
+        - MYSQL_PASSWORD=pwd
+        - MYSQL_ROOT_PASSWORD=root_pwd
+      ports:
+        - 6306:3306
+    api:
+      image: pis_api:latest
+
+      build:
+        context: .
+        dockerfile: Dockerfile
+
+      depends_on: 
+        - mysql_db
+      #Map port 8888 in the docker container to port 80 in the Api
+      ports:
+        - "5024:5024"
+        - "5025:5025"
+        - "8000:8000"
+      restart: always
+      #Specify Environment Variables for the Api Service
+      environment: 
+        - DBHOST=DB
+        - ASPNETCORE_ENVIRONMENT=Development
+      links:
+        - mysql_db:DB
+
+volumes:
+  datafiles:
+  mysql:

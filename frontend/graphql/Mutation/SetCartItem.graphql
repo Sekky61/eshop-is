@@ -1,0 +1,3 @@
+mutation SetCartItem($input: CartManipInput!) {
+  setCartItem(input: $input)
+}

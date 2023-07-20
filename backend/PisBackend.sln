@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{305CB4EE-21FC-45DF-B02F-83D3449B7D3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{87CCFF5D-5622-45C6-B717-FA06683E999B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EshopBL", "EshopBL\EshopBL.csproj", "{C7CEF156-BF23-4ED9-BF05-679608286C1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{305CB4EE-21FC-45DF-B02F-83D3449B7D3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{305CB4EE-21FC-45DF-B02F-83D3449B7D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{305CB4EE-21FC-45DF-B02F-83D3449B7D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{305CB4EE-21FC-45DF-B02F-83D3449B7D3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87CCFF5D-5622-45C6-B717-FA06683E999B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87CCFF5D-5622-45C6-B717-FA06683E999B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87CCFF5D-5622-45C6-B717-FA06683E999B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87CCFF5D-5622-45C6-B717-FA06683E999B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7CEF156-BF23-4ED9-BF05-679608286C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7CEF156-BF23-4ED9-BF05-679608286C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7CEF156-BF23-4ED9-BF05-679608286C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7CEF156-BF23-4ED9-BF05-679608286C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

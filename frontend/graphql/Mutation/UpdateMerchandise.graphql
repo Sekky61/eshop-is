@@ -1,0 +1,7 @@
+mutation UpdateMerchandise($input: MerchandiseUpdateInput!) {
+  updateMerchandise(merchUpdate: $input) {
+    success
+    name
+    imageUploadUrl
+  }
+}

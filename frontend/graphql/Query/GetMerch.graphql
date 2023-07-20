@@ -1,0 +1,19 @@
+query GetMerch($filter: MerchandiseInfoFilterInput, $count: Int, $afterCursor: String){
+  merchandise(where: $filter, order: [{name: ASC}], first: $count, after: $afterCursor) {
+    nodes {
+     name,
+     description,
+     imagesUrl,
+     price,
+     stock,
+     categoryName,
+     id
+    },
+    pageInfo {
+      startCursor,
+     hasNextPage,
+     hasPreviousPage,
+     endCursor
+    }
+  }
+}

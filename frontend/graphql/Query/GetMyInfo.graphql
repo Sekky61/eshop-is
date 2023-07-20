@@ -1,0 +1,44 @@
+query GetMyInfo{
+  authentication {
+    isAuthenticated,
+    role
+  }
+  accountInfo {
+    id
+    email
+    role
+  }
+  customerInfo {
+    firstName,
+    lastName,
+    address {
+      city
+      street
+      state
+      postalCode
+    },
+    phoneNumber,
+    paymentInformation {
+      cardNumber
+      ccv
+      expirationDate
+      cardHolderName
+    }
+  }
+  basketInfo {
+    basketItemCount
+    items {
+      merchandiseId
+        merchandise {
+          id
+          name
+          description
+          price
+          stock
+          categoryName
+          imagesUrl
+        }
+        quantity
+    }
+  }
+}

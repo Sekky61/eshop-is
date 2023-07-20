@@ -1,0 +1,13 @@
+query ManagerGetOrders($filter: OrderInfoFilterInput, $count: Int, $afterCursor: String) {
+   orders(where: $filter, order: [{orderDate: ASC}], first: $count, after: $afterCursor) {
+     totalCount
+     nodes {
+     status
+     merchandises {
+       merchandise {
+         name
+       }
+     }
+     }
+   }
+}

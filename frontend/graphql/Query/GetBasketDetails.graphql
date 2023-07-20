@@ -1,0 +1,18 @@
+query GetBasketDetails {
+  basketInfo {
+    basketItemCount
+    items {
+      merchandiseId
+        merchandise {
+          id
+          name
+          description
+          price
+          stock
+          categoryName
+          imagesUrl
+        }
+        quantity
+    }
+  }
+}

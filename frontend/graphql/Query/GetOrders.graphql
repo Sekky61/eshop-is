@@ -1,0 +1,28 @@
+query GetOrders{
+  customerInfo {
+    orders {
+     orderDate
+     status
+     totalPrice
+     id
+     address {
+       street
+       city
+       state
+       postalCode
+     }
+     merchandises {
+     merchandiseId
+     quantity
+     price
+      merchandise {
+        name
+       categoryName
+       description
+        price
+        stock
+      }
+     }
+    }
+  }
+}

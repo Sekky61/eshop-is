@@ -1,0 +1,7 @@
+mutation UpdateCustomer($customerId: UUID!, $input: UpdateCustomerInput!) {
+  updateCustomer (customerId: $customerId, input: $input) {
+    customerInfo {
+      id
+    }
+  }
+}

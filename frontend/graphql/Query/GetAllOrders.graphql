@@ -1,0 +1,30 @@
+query GetAllOrders($filter: OrderInfoFilterInput, $count: Int, $afterCursor: String) {
+  orders(where: $filter, order: [{id: ASC}], first: $count, after: $afterCursor) {
+    pageInfo {
+      startCursor,
+     hasNextPage,
+     hasPreviousPage,
+     endCursor
+    }
+    nodes {
+      id
+      address {
+        street
+        city,
+        state
+        postalCode
+      }
+      orderDate
+      status
+      totalPrice
+      merchandises {
+        merchandise {
+          name
+        }
+        merchandiseId
+        quantity
+        price
+      }
+    }
+  }
+}

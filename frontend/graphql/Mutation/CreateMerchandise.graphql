@@ -1,0 +1,7 @@
+mutation CreateMerchandise($input: NewMerchandiseInput!) {
+  createMerchandise(merchandise: $input) {
+   success
+   name
+   imageUploadUrl
+  }
+}

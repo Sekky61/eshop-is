@@ -1,0 +1,90 @@
+# Custom
+
+# FileStorage
+FileStorage/
+
+# Compiled binaries
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# NuGet packages
+*.nupkg
+packages/
+project.lock.json
+*.nuget.props
+*.nuget.targets
+
+# MSTest test Results
+TestResults/
+
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.psess
+*.vsp
+*.vshost.*
+*.vspx
+*.csproj.user
+*.ide
+
+# Resharper files
+_ReSharper.*/
+
+# Windows Forms Designer files
+*.exe.config
+*.resx
+*.resources
+*.settings
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Oo]bj/
+[Ll]og/
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+
+# Rider files
+.idea/
+*.sln.iml
+*.ipr
+*.iws
+
+# Visual Studio Code files
+.vscode/
+
+# User-specific files
+*.sln.ide
+*.suo
+*.userprefs
+*.user
+
+# Other
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+

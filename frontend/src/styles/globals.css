@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  
+    :root {
+        /* SPACE SEPARATED For hsl(198deg 93% 60% / <alpha-value>) */
+        --color-primary: 175deg 100% 50%;
+        --hue-sat-primary: 5deg 100%;
+        @apply selection:bg-primary-40 selection:text-slate-100
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        @apply neutral-bg
+    }
+
+    .max-w-450 {
+      max-width: 450px;
+    }
+
+    .max-w-150 {
+      max-width: 150px;
+    }
+
+    .max-w-300 {
+      max-width: 300px;
+    }
+
+    .surface-1 {
+        @apply bg-primary-40/[.05]
+    }
+
+    .surface-2 {
+      @apply bg-primary-40/[.08]
+    }
+
+    .surface-3 {
+      @apply bg-primary-40/[.11]
+    }
+
+    .surface-4 {
+      @apply bg-primary-40/[.12]
+    }
+
+    .surface-5 {
+      @apply bg-primary-40/[.14]
+    }
+
+    /* Active states, important buttons */
+    .bg-primary {
+        @apply bg-primary-40 text-white
+    }
+
+    /* Active states, important buttons */
+    .bg-primary-container {
+      @apply bg-primary-90 text-primary-10
+    }
+
+    .neutral-bg {
+        @apply bg-neutral-99 dark:bg-neutral-10 text-neutral-10 dark:text-neutral-99
+    }
+
+    .large-container {
+      @apply w-full md:w-[768px] lg:w-[950px] mx-auto
+    }
+
+    .small-container {
+        @apply w-full md:w-[768px] mx-auto
+    }
+
+    .primary {
+      @apply bg-primary-40 text-white dark:bg-primary-80 dark:text-primary-20
+    }
+    
+      /* Less emphasis */
+      .primary-cont {
+        @apply bg-primary-90 text-primary-10 dark:bg-primary-30 dark:text-primary-90
+      }
+
+    .navlink {
+        @apply rounded py-1 px-2 stroke-1 stroke-white hover:bg-primary-40/[.10]
+    }
+
+    /* overrides navlins hover */
+    .navlink-active {
+        @apply primary hover:primary
+    }
+
+    .heading-primary {
+        @apply text-3xl leading-relaxed;
+      }
+    
+    .card {
+      @apply rounded-md drop-shadow bg-white dark:bg-white/5
+    }
+
+    .tag-pill {
+      @apply rounded-md font-semibold primary text-sm px-2.5 py-1 h-7
+    }
+  
+    .link {
+      @apply underline underline-offset-2 decoration-1 hover:decoration-2 decoration-primary-40 font-bold
+    }
+
+    .button {
+      @apply rounded-md font-semibold surface-5 text-sm px-2.5 py-1 hover:bg-primary-50 transition duration-150 ease-out
+    }
+
+    .button-primary {
+      @apply bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 disabled:cursor-not-allowed
+    }
+}
