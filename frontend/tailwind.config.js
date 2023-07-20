@@ -30,6 +30,7 @@ module.exports = {
           60: 'hsl(var(--hue-sat-primary) 60% / <alpha-value>)',
           70: 'hsl(var(--hue-sat-primary) 70% / <alpha-value>)',
           80: 'hsl(var(--hue-sat-primary) 80% / <alpha-value>)',
+          85: 'hsl(var(--hue-sat-primary) 85% / <alpha-value>)',
           90: 'hsl(var(--hue-sat-primary) 90% / <alpha-value>)',
           95: 'hsl(var(--hue-sat-primary) 95% / <alpha-value>)',
           99: 'hsl(var(--hue-sat-primary) 99% / <alpha-value>)',

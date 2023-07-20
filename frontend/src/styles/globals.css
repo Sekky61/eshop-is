@@ -74,10 +74,10 @@
       @apply bg-primary-40 text-white dark:bg-primary-80 dark:text-primary-20
     }
     
-      /* Less emphasis */
-      .primary-cont {
-        @apply bg-primary-90 text-primary-10 dark:bg-primary-30 dark:text-primary-90
-      }
+    /* Less emphasis */
+    .primary-cont {
+      @apply bg-primary-85 text-primary-10 dark:bg-primary-30 dark:text-primary-90
+    }
 
     .navlink {
         @apply rounded py-1 px-2 stroke-1 stroke-white hover:bg-primary-40/[.10]
@@ -89,15 +89,20 @@
     }
 
     .heading-primary {
-        @apply text-3xl leading-relaxed;
-      }
+      @apply text-3xl leading-relaxed;
+    }
     
     .card {
-      @apply rounded-md drop-shadow bg-white dark:bg-white/5
+      @apply rounded drop-shadow primary-cont
+    }
+
+    /*Adds shadow*/
+    .hover-card {
+      @apply transition-shadow hover:drop-shadow-lg
     }
 
     .tag-pill {
-      @apply rounded-md font-semibold primary text-sm px-2.5 py-1 h-7
+      @apply rounded font-semibold primary text-sm px-2.5 py-1 h-7
     }
   
     .link {
@@ -105,7 +110,7 @@
     }
 
     .button {
-      @apply rounded-md font-semibold surface-5 text-sm px-2.5 py-1 hover:bg-primary-50 transition duration-150 ease-out
+      @apply rounded font-semibold surface-5 text-sm px-2.5 py-1 hover:bg-primary-50 transition duration-150 ease-out
     }
 
     .button-primary {

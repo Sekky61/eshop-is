@@ -1,23 +1,12 @@
 import Head from 'next/head'
 import client from "@/common/fetch/apollo-client";
-import { GetCategoriesDocument, GetMerchDocument } from '@/generated/graphql';
+import { GetCategoriesDocument, GetMerchDocument, GetMerchQueryResult, GetMerchQueryVariables, MerchandiseInfo } from '@/generated/graphql';
 import { CategoryCard } from '@/components/CategoryCard';
-import { useState } from 'react';
 import { MerchCard } from '@/components/MerchCard';
 
+const SHOWCASE_ITEMS_COUNT = 3;
 
-export default function Home({ categories, merch }: any) {
-  const [isOpen, setIsOpen] = useState(true);
-
-  function handleClose() {
-    setIsOpen(false);
-  }
-
-  const categoryCards = categories.map((category: any) => {
-    return (
-      <CategoryCard categoryName={category.name} key={category.name}></CategoryCard>
-    )
-  });
+export default function Home({ categories, merch }: { categories: any, merch: MerchandiseInfo[] }) {
 
   const merchCards = merch.map((merchandise: any) => {
     return (
@@ -25,29 +14,11 @@ export default function Home({ categories, merch }: any) {
     )
   });
 
-
-
-  function Popup({ handleClose }: { handleClose: () => void }) {
-
-    const handlePopupClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      setIsOpen(false);
-      handleClose();
-    }
-
+  const categoryCards = categories.map((category: any) => {
     return (
-      <div className={`popup-window ${isOpen ? 'open' : ''}`}>
-        <div className="hidden md:flex fixed bottom-0 left-0 right-0 bg-white p-4 shadow" style={{ justifyContent: 'center', maxWidth: '1600px' }}>
-          <p className='lg:w-1/4 md:1/2'>Hey there! Do you want to receive updates about our products and promotions? Enter your email below:</p>
-          <form className="mt-4">
-            <input type="email" placeholder="Enter your email" className="border border-gray-300 rounded px-4 py-2 w-full" />
-            <button className="button-primary">Subscribe</button>
-            <button onClick={handlePopupClose} className="bg-red-500 text-white rounded px-4 py-2 ml-5 mt-4">Close</button>
-          </form>
-        </div>
-      </div>
-    );
-  }
+      <CategoryCard categoryName={category.name} key={category.name}></CategoryCard>
+    )
+  });
 
   return (
     <>
@@ -63,44 +34,54 @@ export default function Home({ categories, merch }: any) {
         </div>
 
         <div className='mb-4'>
-          <h3 className='mb-5'>You may like:</h3>
-
-          <div className='sm:grid sm:grid-cols-3 sm:gap-4'>
-            {merchCards.slice(0, 3)}
+          <h2 className='mb-3 mt-1 text-lg'>You may like:</h2>
+          <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+            {merchCards}
           </div>
         </div>
 
         <div className='mb-4'>
-          <h3 className='mb-5'>Available categories:</h3>
-          <div className='sm:grid sm:grid-cols-3 sm:gap-4'>
+          <h2 className='mb-3 mt-1 text-lg'>Available categories:</h2>
+          <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
             {categoryCards}
           </div>
         </div>
       </main>
-
-      {isOpen && <Popup handleClose={handleClose} />}
     </>
   )
 }
 
-// This is how to statically load data from GraphQL
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
   const categories = await client.query({
     query: GetCategoriesDocument,
   });
 
+  const merch_vars: GetMerchQueryVariables = {
+    count: SHOWCASE_ITEMS_COUNT,
+  };
+
   const merchandise = await client.query({
     query: GetMerchDocument,
-  });
+    variables: merch_vars,
+  }) as GetMerchQueryResult;
 
+  if (merchandise.error) {
+    throw new Error(merchandise.error.message);
+  }
+
+  if (!merchandise.data || !merchandise.data.merchandise || !merchandise.data.merchandise.nodes) {
+    throw new Error("No merchandise data.");
+  }
+
+  // TODO: Create showcase query, that will randomise on server
   const merch = merchandise.data.merchandise.nodes;
-  const randomMerch = merch.sort(() => 0.5 - Math.random());
+  merch.sort(() => 0.5 - Math.random());
 
   return {
     props: {
       categories: categories.data.categories,
-      merch: merchandise.data.merchandise.nodes,
+      merch,
     }
   };
 }

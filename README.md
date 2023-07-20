@@ -12,6 +12,12 @@ You need [Node.js](https://nodejs.org/en/) installed.
 
 ### Setup and running
 
+To install the dependencies, run:
+```bash
+cd frontend
+npm install
+```
+
 To run the development server, run:
 ```bash
 cd frontend

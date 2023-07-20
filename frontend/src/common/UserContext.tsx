@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ApolloClient } from "@apollo/client";
-import { GetMyInfoDocument, GetMyInfoQuery, LoginDocument, MutationLoginArgs, MutationRegisterCustomerArgs, RegisterCustomerDocument, RegisterCustomerInput } from "@/generated/graphql";
+import { GetMyInfoDocument, GetMyInfoQuery, LoginDocument, MutationLoginArgs, RegisterCustomerDocument, RegisterCustomerInput } from "@/generated/graphql";
 import SessionChange from "./fetch/SessionChange";
 import { setCookie } from 'cookies-next';
 import { useRouter } from "next/router";
