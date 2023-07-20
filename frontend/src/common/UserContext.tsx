@@ -26,7 +26,29 @@ const convertStringToRole = (str: string): Role | null => {
     }
 };
 
-export interface UserDetails extends GetMyInfoQuery {
+interface UserDetailsMethods {
+    getDisplayName(this: UserDetails): string;
+    // Method for checking if the user is a customer or an anonymous customer
+    isCustomer(this: UserDetails): boolean;
+}
+
+const userMethods: UserDetailsMethods = {
+    getDisplayName: function (this: UserDetails): string {
+        if (!this.accountInfo) {
+            throw new Error("User has no accountInfo");
+        }
+        if (this.customerInfo) {
+            return this.customerInfo.firstName + " " + this.customerInfo?.lastName;
+        } else {
+            return this.accountInfo.email;
+        }
+    },
+    isCustomer: function (this: UserDetails): boolean {
+        return this.role == Role.Customer || this.role == Role.AnonymousCustomer;
+    }
+}
+
+export interface UserDetails extends GetMyInfoQuery, UserDetailsMethods {
     isLoggedIn: boolean;
     role: Role;
 }
@@ -52,6 +74,7 @@ function convertQueryToUserDetails(data: GetMyInfoQuery): UserDetails {
 
     let res: UserDetails = {
         ...data,
+        ...userMethods,
         isLoggedIn: accountInfo !== null,
         role: role ?? Role.AnonymousCustomer,
     }
@@ -100,6 +123,7 @@ function logout() {
 
 // Create and initialize an instance of UserContext
 const defaultUserContext: UserDetails = {
+    ...userMethods,
     authentication: {
         isAuthenticated: false,
         role: "AnonymousCustomer",

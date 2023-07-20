@@ -3,28 +3,35 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 
-function roleToPath(role: Role): string {
-    switch (role) {
-        case Role.Admin:
-            return "/admin";
-        case Role.Manager:
-            return "/manager";
-        case Role.Customer:
-            return "/account";
-        default:
-            return "/";
+const UserBubble = () => {
+    const [userDetails] = useUser();
+
+    if (userDetails.isLoggedIn) {
+        return <LoggedInBubble></LoggedInBubble>
+    }
+    else {
+        return <LoggedOutBubble></LoggedOutBubble>
     }
 }
 
 // Shopping cart icon. Shows the number of items in the cart.
-const ShoppingCart = ({ numberOfItems }: any) => {
+const ShoppingCartIcon = () => {
+    const [userContext] = useUser();
+    const numberOfItems = userContext.basketInfo?.basketItemCount || 0;
+
+    const cartIcon = (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="fill-primary-40">
+            <path d="M1 1.75A.75.75 0 011.75 1h1.628a1.75 1.75 0 011.734 1.51L5.18 3a65.25 65.25 0 0113.36 1.412.75.75 0 01.58.875 48.645 48.645 0 01-1.618 6.2.75.75 0 01-.712.513H6a2.503 2.503 0 00-2.292 1.5H17.25a.75.75 0 010 1.5H2.76a.75.75 0 01-.748-.807 4.002 4.002 0 012.716-3.486L3.626 2.716a.25.25 0 00-.248-.216H1.75A.75.75 0 011 1.75zM6 17.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+        </svg>
+    );
+
     return (
         <Link href="/cart">
             <div className="relative rounded-full transition duration-300 ease-in-out hover:surface-4">
-                <div className="w-7 h-7">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 3H4.5L6.5 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM6.07142 14H18L21 5H4.78571M11 19C11 20.1046 10.1046 21 9 21C7.89543 21 7 20.1046 7 19C7 17.8954 7.89543 17 9 17C10.1046 17 11 17.8954 11 19Z" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+                <div className="w-6 h-6">
+                    {cartIcon}
                 </div>
-                <div className="w-4 h-4 rounded-full bg-red-500 text-xs absolute top-1/2 left-1/2 text-center">
+                <div className="w-4 h-4 rounded-full bg-red-500 text-[10px] text-white absolute bottom-1/2 left-1/2 text-center">
                     {numberOfItems}
                 </div>
             </div>
@@ -32,124 +39,103 @@ const ShoppingCart = ({ numberOfItems }: any) => {
     )
 }
 
-const UserBubble = () => {
+// User is not logged in
+const LoggedOutBubble = () => {
+    return (
+        <div className="py-1 px-3 rounded-lg surface-4 h-10 flex items-center">
+            <Link href="/login">
+                <span className="navlink">Login</span>
+            </Link>
+            <Link href="/register">
+                <span className="navlink">Register</span>
+            </Link>
+            <ShoppingCartIcon></ShoppingCartIcon>
+        </div>
+    );
+}
 
+const Dropdown = ({ items }: { items: { name: string, action: () => void }[] }) => {
+
+    const dropdownEls = items.map((item) => {
+        return (
+            <li className="block px-2 py-1.5 my-1 hover:bg-primary-90" key={item.name}>
+                <button onClick={item.action} className="w-full">{item.name}</button>
+            </li>
+        )
+    });
+
+    return (
+        <div className={"opacity-0 -translate-y-4 group-focus:opacity-100 group-focus:translate-y-0 absolute top-full mt-2 bg-white rounded shadow w-full transition duration-300"}>
+            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                {dropdownEls}
+            </ul>
+        </div>
+    )
+}
+
+const LoggedInBubble = () => {
     const router = useRouter();
 
-    // UserContext
     const [userDetails, { logoutUser }] = useUser();
+    const displayName = userDetails.getDisplayName();
+    const showCart = userDetails.isCustomer();
 
-    const showCart = userDetails.role === Role.Customer || userDetails.role === Role.AnonymousCustomer;
-    const nOfItems = userDetails.basketInfo?.basketItemCount || 0;
+    const accountItem =
+    {
+        name: "Account",
+        action: () => router.push("/account")
+    };
 
-    // Dropdown
-    const [open, setOpen] = useState(false);
+    const logoutItem =
+    {
+        name: "Logout",
+        action: () => logoutUser()
+    };
 
-    const toggleOpen = () => {
-        setOpen(!open);
+    const managerItem = {
+        name: "Manager",
+        action: () => router.push("/manager")
+    };
+
+    const adminItem = {
+        name: "Admin",
+        action: () => router.push("/admin")
+    };
+
+    let dropdownItems;
+    switch (userDetails.role) {
+        case Role.Customer:
+            dropdownItems = [accountItem, logoutItem];
+            break;
+        case Role.Manager:
+            dropdownItems = [managerItem, accountItem, logoutItem];
+            break;
+        case Role.Admin:
+            dropdownItems = [adminItem, accountItem, logoutItem];
+            break;
+        default:
+            throw new Error(`Invalid role ${userDetails.role}`);
     }
 
-    const onLogoutClicked = () => {
-        logoutUser();
-    }
+    const arrowDown = (
+        <svg className={"w-4 h-4 ml-2 duration-100 group-focus:rotate-180 "} aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+    );
 
-    const onAccountClicked = () => {
-        // redirect to account page
-        router.push("/account");
-    }
-
-    const closeDropdown = () => {
-        // Delay closing the dropdown to allow for the click event to fire
-        setTimeout(() => {
-            setOpen(false);
-        }, 200);
-    }
-
-    if (userDetails.isLoggedIn) {
-        let displayName;
-        if (userDetails.customerInfo) {
-            displayName = userDetails.customerInfo?.firstName + " " + userDetails.customerInfo?.lastName;
-        } else {
-            displayName = userDetails.accountInfo?.email;
-        }
-
-        let dropdownItems = [
-            {
-                name: "Account",
-                action: onAccountClicked
-            },
-            {
-                name: "Logout",
-                action: onLogoutClicked
-            }
-        ]
-
-        let managerAction = {
-            name: "Manager",
-            action: () => router.push("/manager")
-        };
-
-        if (userDetails.role === Role.Admin) {
-            dropdownItems.unshift(managerAction);
-            dropdownItems.unshift({
-                name: "Admin",
-                action: () => router.push("/admin")
-            })
-        }
-
-        if (userDetails.role === Role.Manager) {
-            dropdownItems.unshift(managerAction);
-        }
-
-        if (userDetails.role === Role.Customer) {
-            dropdownItems.unshift({
-                name: "Cart",
-                action: () => router.push("/cart")
-            })
-        }
-
-        const dropdownEls = dropdownItems.map((item) => {
-            return (
-                <li className="block px-2 py-2 hover:bg-primary-90" key={item.name}>
-                    <button onClick={item.action} className="w-full">{item.name}</button>
-                </li>
-            )
-        })
-
-        return (
-            <div className="flex items-center relative">
-                <button onClick={toggleOpen} onBlur={closeDropdown} id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="rounded-lg surface-4 focus:ring-4 font-medium text-sm px-4 py-2.5 text-center inline-flex items-center " type="button">
-                    {displayName}
-                    {showCart &&
-                        <ShoppingCart numberOfItems={nOfItems}></ShoppingCart>
-                    }
-                    <svg className="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="dropdown" className={"absolute top-full z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 " + (open ? "" : "hidden")}>
-                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                        {dropdownEls}
-                    </ul>
-                </div>
-            </div>
-        );
-    }
-    else {
-        // User is not logged in
-        return (
-            <div className="py-1 px-3 rounded-lg surface-4 h-10 flex items-center">
-                <Link href="/login">
-                    <span className="navlink">Login</span>
-                </Link>
-                <Link href="/register">
-                    <span className="navlink">Register</span>
-                </Link>
+    return (
+        <button className="flex items-center relative group">
+            <div className="rounded surface-4 font-medium text-sm px-4 py-2.5 flex items-center gap-2">
+                {displayName}
                 {showCart &&
-                    <ShoppingCart numberOfItems={nOfItems}></ShoppingCart>
+                    <ShoppingCartIcon></ShoppingCartIcon>
                 }
+                {arrowDown}
             </div>
-        );
-    }
+            <Dropdown items={dropdownItems}></Dropdown>
+        </button>
+    );
+
 }
 
 export default UserBubble;
